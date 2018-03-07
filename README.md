@@ -7,9 +7,9 @@ controlled. The initial use-case for this is to control [Fully Kiosk
 Browser](http://www.ozerov.de/fully-kiosk-browser/) using it's built-in REST
 API.
 
-> **Warning**: THis is my first platform and compoent for Home Assistant, so it
-> is still VERY rough. It works for me but there is no guarantee that it will
-> work for anyone else or their neighbors.
+> **Warning**: This is my first platform and component for Home Assistant, so
+> it is still VERY rough. It works for me but there is no guarantee that it
+> will work for anyone else or their neighbors.
 
 ## Installation
 
