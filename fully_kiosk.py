@@ -63,9 +63,9 @@ SERVICE_SCREENSAVER_STOP = 'fullykiosk_screensaver_stop'
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     device = FullyKioskDevice(config.get(CONF_NAME),
-                             config.get(CONF_HOST),
-                             config.get(CONF_PORT),
-                             config.get(CONF_PASSWORD))
+                              config.get(CONF_HOST),
+                              config.get(CONF_PORT),
+                              config.get(CONF_PASSWORD))
 
     if device.update():
         DEVICES.append(device)
@@ -174,7 +174,11 @@ class FullyKioskDevice(DisplayDevice):
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
-        data = self._send_command('deviceInfo').json()
+        try:
+            data = self._send_command('deviceInfo').json()
+        except OSError:
+            return False
+
         if 'status' in data and data['status'] == 'Error':
             _LOGGER.error(data['statustext'])
             return False
