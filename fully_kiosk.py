@@ -65,6 +65,7 @@ SCHEMA_SERVICE_SET_BRIGHTNESS = vol.Schema({
 
 SUPPORT_FULLYKIOSK = SUPPORT_TURN_OFF | SUPPORT_TURN_ON
 
+SERVICE_LOAD_URL = 'fullykiosk_load_url'
 SERVICE_LOAD_START_URL = 'fullykiosk_load_start_url'
 SERVICE_SAY = 'fullykiosk_say'
 SERVICE_SCREENSAVER_START = 'fullykiosk_screensaver_start'
@@ -86,6 +87,9 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         for device in devices:
             if service.service == SERVICE_LOAD_START_URL:
                 device.load_start_url()
+
+            if service.service == SERVICE_LOAD_URL:
+                device.load_url()
 
             if service.service == SERVICE_SAY:
                 device.tts(service.data[ATTR_MESSAGE], service.data[ATTR_LOCALE])
@@ -176,6 +180,10 @@ class FullyKioskDevice(DisplayDevice):
 
     def load_start_url(self):
         self._send_command(command='loadStartURL')
+        self.update()
+
+    def load_url(self, url):
+        self._send_command(command='loadUrl', key='url', value=str(url))
         self.update()
 
     def set_brightness(self, brightness):
