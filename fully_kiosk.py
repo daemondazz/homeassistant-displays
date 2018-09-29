@@ -44,6 +44,7 @@ NO_PARAMETERS_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
 })
 
+SCHEMA_SERVICE_LOAD_URL = NO_PARAMETERS_SCHEMA
 SCHEMA_SERVICE_LOAD_START_URL = NO_PARAMETERS_SCHEMA
 SCHEMA_SERVICE_SCREENSAVER_START = NO_PARAMETERS_SCHEMA
 SCHEMA_SERVICE_SCREENSAVER_STOP = NO_PARAMETERS_SCHEMA
@@ -125,6 +126,10 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
                            SERVICE_LOAD_START_URL,
                            service_handler,
                            schema=SCHEMA_SERVICE_LOAD_START_URL)
+    hass.services.register(DOMAIN,
+                           SERVICE_LOAD_URL,
+                           service_handler,
+                           schema=SCHEMA_SERVICE_START_URL)
     hass.services.register(DOMAIN,
                            SERVICE_SAY,
                            service_handler,
