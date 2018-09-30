@@ -193,7 +193,7 @@ class FullyKioskDevice(DisplayDevice):
         self.update()
 
     def load_url(self, url):
-        self._send_command(command='loadURL', key='url', value=str(url))
+        self._send_command(command='loadURL', url=str(url))
         self.update()
 
     def set_brightness(self, brightness):
