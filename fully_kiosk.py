@@ -24,6 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 ATTR_BRIGHTNESS = 'brightness'
 ATTR_MESSAGE = 'message'
 ATTR_LOCALE = 'locale'
+ATTR_URL = 'url'
 
 DEFAULT_LOCALE = 'en'
 DEFAULT_NAME = 'Fully Kiosk Browser'
@@ -44,10 +45,14 @@ NO_PARAMETERS_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
 })
 
-SCHEMA_SERVICE_LOAD_URL = NO_PARAMETERS_SCHEMA
 SCHEMA_SERVICE_LOAD_START_URL = NO_PARAMETERS_SCHEMA
 SCHEMA_SERVICE_SCREENSAVER_START = NO_PARAMETERS_SCHEMA
 SCHEMA_SERVICE_SCREENSAVER_STOP = NO_PARAMETERS_SCHEMA
+
+SCHEMA_SERVICE_LOAD_URL = vol.Schema({
+    vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
+    vol.Required(ATTR_URL): cv.string,
+})
 
 SCHEMA_SERVICE_SAY = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
@@ -90,7 +95,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
                 device.load_start_url()
 
             if service.service == SERVICE_LOAD_URL:
-                device.load_url()
+                device.load_url(service.data[ATTR_URL])
 
             if service.service == SERVICE_SAY:
                 device.tts(service.data[ATTR_MESSAGE], service.data[ATTR_LOCALE])
@@ -129,7 +134,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     hass.services.register(DOMAIN,
                            SERVICE_LOAD_URL,
                            service_handler,
-                           schema=SCHEMA_SERVICE_START_URL)
+                           schema=SCHEMA_SERVICE_LOAD_URL)
     hass.services.register(DOMAIN,
                            SERVICE_SAY,
                            service_handler,
@@ -188,7 +193,7 @@ class FullyKioskDevice(DisplayDevice):
         self.update()
 
     def load_url(self, url):
-        self._send_command(command='loadUrl', key='url', value=str(url))
+        self._send_command(command='loadURL', key='url', value=str(url))
         self.update()
 
     def set_brightness(self, brightness):
