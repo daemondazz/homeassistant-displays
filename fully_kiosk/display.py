@@ -14,7 +14,7 @@ from homeassistant.helpers.config_validation import PLATFORM_SCHEMA
 from homeassistant.util import Throttle
 import homeassistant.helpers.config_validation as cv
 
-from . import (
+from ..display import (
     DisplayDevice, DOMAIN,
     SUPPORT_TURN_OFF, SUPPORT_TURN_ON
 )
