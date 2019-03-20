@@ -24,6 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 ATTR_BRIGHTNESS = 'brightness'
 ATTR_MESSAGE = 'message'
 ATTR_LOCALE = 'locale'
+ATTR_URL = 'url'
 
 DEFAULT_LOCALE = 'en'
 DEFAULT_NAME = 'Fully Kiosk Browser'
@@ -48,6 +49,11 @@ SCHEMA_SERVICE_LOAD_START_URL = NO_PARAMETERS_SCHEMA
 SCHEMA_SERVICE_SCREENSAVER_START = NO_PARAMETERS_SCHEMA
 SCHEMA_SERVICE_SCREENSAVER_STOP = NO_PARAMETERS_SCHEMA
 
+SCHEMA_SERVICE_LOAD_URL = vol.Schema({
+    vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
+    vol.Required(ATTR_URL): cv.string,
+})
+
 SCHEMA_SERVICE_SAY = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
     vol.Required(ATTR_MESSAGE): cv.string,
@@ -65,6 +71,7 @@ SCHEMA_SERVICE_SET_BRIGHTNESS = vol.Schema({
 
 SUPPORT_FULLYKIOSK = SUPPORT_TURN_OFF | SUPPORT_TURN_ON
 
+SERVICE_LOAD_URL = 'fullykiosk_load_url'
 SERVICE_LOAD_START_URL = 'fullykiosk_load_start_url'
 SERVICE_SAY = 'fullykiosk_say'
 SERVICE_SCREENSAVER_START = 'fullykiosk_screensaver_start'
@@ -86,6 +93,9 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         for device in devices:
             if service.service == SERVICE_LOAD_START_URL:
                 device.load_start_url()
+
+            if service.service == SERVICE_LOAD_URL:
+                device.load_url(service.data[ATTR_URL])
 
             if service.service == SERVICE_SAY:
                 device.tts(service.data[ATTR_MESSAGE], service.data[ATTR_LOCALE])
@@ -121,6 +131,10 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
                            SERVICE_LOAD_START_URL,
                            service_handler,
                            schema=SCHEMA_SERVICE_LOAD_START_URL)
+    hass.services.register(DOMAIN,
+                           SERVICE_LOAD_URL,
+                           service_handler,
+                           schema=SCHEMA_SERVICE_LOAD_URL)
     hass.services.register(DOMAIN,
                            SERVICE_SAY,
                            service_handler,
@@ -176,6 +190,10 @@ class FullyKioskDevice(DisplayDevice):
 
     def load_start_url(self):
         self._send_command(command='loadStartURL')
+        self.update()
+
+    def load_url(self, url):
+        self._send_command(command='loadURL', url=str(url))
         self.update()
 
     def set_brightness(self, brightness):
