@@ -57,3 +57,13 @@ The display component supports the following services:
    * display.set_brightness
    * display.turn_off
    * display.turn_on
+
+### Fully Browser Kiosk Specific Services
+
+The fully_kiosk platform provides the following services:
+
+   * fully_kiosk.load_start_url
+   * fully_kiosk.say
+   * fully_kiosk.screensaver_start
+   * fully_kiosk.screensaver_stop
+   * fully_kiosk.set_screensaver_brightness
