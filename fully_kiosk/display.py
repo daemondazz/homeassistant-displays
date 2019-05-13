@@ -49,11 +49,6 @@ SCHEMA_SERVICE_LOAD_START_URL = NO_PARAMETERS_SCHEMA
 SCHEMA_SERVICE_SCREENSAVER_START = NO_PARAMETERS_SCHEMA
 SCHEMA_SERVICE_SCREENSAVER_STOP = NO_PARAMETERS_SCHEMA
 
-SCHEMA_SERVICE_LOAD_URL = vol.Schema({
-    vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
-    vol.Required(ATTR_URL): cv.string,
-})
-
 SCHEMA_SERVICE_SAY = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
     vol.Required(ATTR_MESSAGE): cv.string,
@@ -71,12 +66,10 @@ SCHEMA_SERVICE_SET_BRIGHTNESS = vol.Schema({
 
 SUPPORT_FULLYKIOSK = SUPPORT_TURN_OFF | SUPPORT_TURN_ON
 
-SERVICE_LOAD_URL = 'fullykiosk_load_url'
 SERVICE_LOAD_START_URL = 'fullykiosk_load_start_url'
 SERVICE_SAY = 'fullykiosk_say'
 SERVICE_SCREENSAVER_START = 'fullykiosk_screensaver_start'
 SERVICE_SCREENSAVER_STOP = 'fullykiosk_screensaver_stop'
-SERVICE_SET_BRIGHTNESS = 'fullykiosk_set_brightness'
 SERVICE_SET_SCREENSAVER_BRIGHTNESS = 'fullykiosk_set_screensaver_brightness'
 
 
@@ -94,9 +87,6 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
             if service.service == SERVICE_LOAD_START_URL:
                 device.load_start_url()
 
-            if service.service == SERVICE_LOAD_URL:
-                device.load_url(service.data[ATTR_URL])
-
             if service.service == SERVICE_SAY:
                 device.tts(service.data[ATTR_MESSAGE], service.data[ATTR_LOCALE])
 
@@ -105,9 +95,6 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
             if service.service == SERVICE_SCREENSAVER_STOP:
                 device.turn_screensaver_off()
-
-            if service.service == SERVICE_SET_BRIGHTNESS:
-                device.set_brightness(service.data[ATTR_BRIGHTNESS])
 
             if service.service == SERVICE_SET_SCREENSAVER_BRIGHTNESS:
                 device.set_screensaver_brightness(service.data[ATTR_BRIGHTNESS])
@@ -132,10 +119,6 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
                            service_handler,
                            schema=SCHEMA_SERVICE_LOAD_START_URL)
     hass.services.register(DOMAIN,
-                           SERVICE_LOAD_URL,
-                           service_handler,
-                           schema=SCHEMA_SERVICE_LOAD_URL)
-    hass.services.register(DOMAIN,
                            SERVICE_SAY,
                            service_handler,
                            schema=SCHEMA_SERVICE_SAY)
@@ -147,10 +130,6 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
                            SERVICE_SCREENSAVER_STOP,
                            service_handler,
                            schema=SCHEMA_SERVICE_SCREENSAVER_STOP)
-    hass.services.register(DOMAIN,
-                           SERVICE_SET_BRIGHTNESS,
-                           service_handler,
-                           schema=SCHEMA_SERVICE_SET_BRIGHTNESS)
     hass.services.register(DOMAIN,
                            SERVICE_SET_SCREENSAVER_BRIGHTNESS,
                            service_handler,
