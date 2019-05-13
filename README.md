@@ -20,7 +20,7 @@ This component currently supports the following features of Fully Kiosk Browser:
 
 ## Installation
 
-If you have no other custom components, you can simplly check out the respository directly into *$CONFIGDIR/custom_components/*.
+If you have no other custom components, you can simply check out the respository directly into *$CONFIGDIR/custom_components/*.
 
 ```
 $ git clone https://github.com/daemondazz/homeassistant-displays.git $CONFIGDIR/custom_components
