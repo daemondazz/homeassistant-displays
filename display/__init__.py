@@ -74,7 +74,7 @@ def async_setup(hass, config):
     @asyncio.coroutine
     def async_handle_display_service(service):
         method = SERVICE_TO_METHOD.get(service.service)
-        target_displays = component.async_extract_from_service(service)
+        target_displays = yield from component.async_extract_from_service(service)
         params = service.data.copy()
         params.pop(ATTR_ENTITY_ID, None)
 
