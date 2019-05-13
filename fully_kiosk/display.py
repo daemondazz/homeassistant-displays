@@ -198,6 +198,7 @@ class FullyKioskDevice(DisplayDevice):
             'mac_address': data['mac'],
             'version': data['appVersionName'],
             'page': data['currentPage'],
+            'battery_charging': data['plugged'],
             'battery_level': data['batteryLevel'],
             'display_resolution': '{}x{}'.format(data['displayWidthPixels'], data['displayHeightPixels']),
             'brightness': data['screenBrightness'],
