@@ -64,29 +64,27 @@ def turn_off(hass, entity_id=None):
     hass.services.call(DOMAIN, SERVICE_TURN_OFF, data)
 
 
-@asyncio.coroutine
-def async_setup(hass, config):
+async def async_setup(hass, config):
     component = EntityComponent(
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL, GROUP_NAME_ALL_DISPLAYS)
 
-    yield from component.async_setup(config)
+    await component.async_setup(config)
 
-    @asyncio.coroutine
-    def async_handle_display_service(service):
+    async def async_handle_display_service(service):
         method = SERVICE_TO_METHOD.get(service.service)
-        target_displays = yield from component.async_extract_from_service(service)
+        target_displays = await component.async_extract_from_service(service)
         params = service.data.copy()
         params.pop(ATTR_ENTITY_ID, None)
 
         update_tasks = []
         for display in target_displays:
-            yield from getattr(display, method['method'])(**params)
+            await getattr(display, method['method'])(**params)
             if not display.should_poll:
                 continue
             update_tasks.append(display.async_update_ha_state(True))
 
         if update_tasks:
-            yield from asyncio.wait(update_tasks, loop=hass.loop)
+            await asyncio.wait(update_tasks, loop=hass.loop)
 
     for service in SERVICE_TO_METHOD:
         schema = SERVICE_TO_METHOD[service].get(
