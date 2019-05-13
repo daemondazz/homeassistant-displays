@@ -16,7 +16,7 @@ from homeassistant.helpers.config_validation import PLATFORM_SCHEMA
 from homeassistant.util import Throttle
 import homeassistant.helpers.config_validation as cv
 
-from ..display import (
+from ..display import (                                                     # pylint: disable=relative-beyond-top-level
     DisplayDevice,
     ATTR_BRIGHTNESS,
     SUPPORT_LOAD_URL, SUPPORT_SET_BRIGHTNESS, SUPPORT_TURN_OFF, SUPPORT_TURN_ON,
@@ -72,7 +72,7 @@ SCHEMA_SERVICE_SET_SCREENSAVER_BRIGHTNESS = vol.Schema({
 })
 
 
-def setup_platform(hass, config, add_devices, discovery_info=None):
+def setup_platform(hass, config, add_devices, discovery_info=None):                   # pylint: disable=unused-argument
     def service_handler(call):
         entity_ids = call.data.get(ATTR_ENTITY_ID)
         if entity_ids:
