@@ -41,3 +41,20 @@ set_screensaver_brightness:
     brightness:
       description: 'Brightness level to set'
       example: '0-255'
+
+sound_play:
+  description: 'Local path on tablet or URL with mp3 file to play using Fully Kiosk Browser '
+  fields:
+    entity_id:
+      description: 'Name of the Fully Kiosk Browser device'
+      example: 'display.kitchen_wall_pad'
+    url:
+      description: 'The local file or URL to play'
+      example: 'file:///storage/emulated/0/Download/sound.mp3 or http://www.example.com/sound.mp3'
+
+sound_stop:
+  description: 'Stop play a previously started mp3 file playback'
+  fields:
+    entity_id:
+      description: 'Name of the Fully Kiosk Browser device'
+      example: 'display.kitchen_wall_pad'
