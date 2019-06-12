@@ -28,6 +28,7 @@ DOMAIN = 'fully_kiosk'
 
 ATTR_MESSAGE = 'message'
 ATTR_LOCALE = 'locale'
+ATTR_URL = 'url'
 
 DEFAULT_LOCALE = 'en'
 DEFAULT_NAME = 'Fully Kiosk Browser'
@@ -40,6 +41,8 @@ SERVICE_SAY = 'say'
 SERVICE_SCREENSAVER_START = 'screensaver_start'
 SERVICE_SCREENSAVER_STOP = 'screensaver_stop'
 SERVICE_SET_SCREENSAVER_BRIGHTNESS = 'set_screensaver_brightness'
+SERVICE_SOUND_START = 'sound_play'
+SERVICE_SOUND_STOP = 'sound_stop'
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
@@ -50,6 +53,13 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 SCHEMA_SERVICE_LOAD_START_URL = vol.Schema({
     ATTR_ENTITY_ID: cv.entity_ids,
+})
+SCHEMA_SERVICE_SOUND_START = vol.Schema({
+    ATTR_ENTITY_ID: cv.entity_ids,
+    vol.Required(ATTR_URL): cv.string
+})
+SCHEMA_SERVICE_SOUND_STOP = vol.Schema({
+    ATTR_ENTITY_ID: cv.entity_ids
 })
 SCHEMA_SERVICE_SCREENSAVER_START = vol.Schema({
     ATTR_ENTITY_ID: cv.entity_ids,
@@ -91,6 +101,10 @@ def setup_platform(hass, config, add_devices, discovery_info=None):             
                 device.turn_screensaver_off()
             elif call.service == SERVICE_SET_SCREENSAVER_BRIGHTNESS:
                 device.set_screensaver_brightness(call.data[ATTR_BRIGHTNESS])
+            elif call.service == SERVICE_SOUND_START:
+                device.sound_start(call.data[ATTR_URL])
+            elif call.service == SERVICE_SOUND_STOP:
+                device.sound_stop()
 
     _LOGGER.info("Setting up FullyKioskDevice for %s at %s:%s",
                  config.get(CONF_NAME, DEFAULT_NAME),
@@ -126,6 +140,13 @@ def setup_platform(hass, config, add_devices, discovery_info=None):             
         DOMAIN, SERVICE_SET_SCREENSAVER_BRIGHTNESS, service_handler,
         schema=SCHEMA_SERVICE_SET_SCREENSAVER_BRIGHTNESS)
 
+    hass.services.register(
+        DOMAIN, SERVICE_SOUND_START, service_handler,
+        schema=SCHEMA_SERVICE_SOUND_START)
+
+    hass.services.register(
+        DOMAIN, SERVICE_SOUND_STOP, service_handler,
+        schema=SCHEMA_SERVICE_SOUND_STOP)
 
 class FullyKioskDevice(DisplayDevice):
     def __init__(self, name, host, port, password):
@@ -163,6 +184,12 @@ class FullyKioskDevice(DisplayDevice):
 
     def set_screensaver_brightness(self, brightness):
         self._send_command(command='setStringSetting', key='screensaverBrightness', value=str(brightness))
+
+    def sound_start(self, url):
+        self._send_command(command='playSound', url=url)
+
+    def sound_stop(self):
+        self._send_command(command='stopSound')
 
     def turn_off(self):
         self._send_command(command='screenOff')
