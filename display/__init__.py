@@ -20,7 +20,7 @@ from homeassistant.const import (
     SERVICE_TURN_OFF, SERVICE_TURN_ON,
     STATE_ON
 )
-from homeassistant.helpers.config_validation import PLATFORM_SCHEMA
+from homeassistant.helpers.config_validation import PLATFORM_SCHEMA, PLATFORM_SCHEMA_BASE
 from homeassistant.helpers.entity import ToggleEntity
 from homeassistant.helpers.entity_component import EntityComponent
 from homeassistant.loader import bind_hass
