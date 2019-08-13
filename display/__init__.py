@@ -56,7 +56,7 @@ DISPLAY_DEVICE_LOAD_URL_SCHEMA = DISPLAY_DEVICE_SCHEMA.extend({
 DISPLAY_DEVICE_SET_BRIGHTNESS_SCHEMA = DISPLAY_DEVICE_SCHEMA.extend({
     vol.Optional(ATTR_BRIGHTNESS, default=None):
         vol.Any(
-            vol.All(str, vol.Length(min=0, max=0)),
+            vol.All(str, vol.Length(min=0, max=3)),
             vol.All(int, vol.Range(min=0, max=255))
         )
 })
