@@ -16,6 +16,7 @@ from homeassistant.components.group import (
     ENTITY_ID_FORMAT as GROUP_ENTITY_ID_FORMAT
 )
 from homeassistant.const import (
+    MAJOR_VERSION, MINOR_VERSION,
     ATTR_ENTITY_ID,
     SERVICE_TURN_OFF, SERVICE_TURN_ON,
     STATE_ON
@@ -69,8 +70,12 @@ def is_on(hass, entity_id=None):
 
 
 async def async_setup(hass, config):
-    component = EntityComponent(
-        _LOGGER, DOMAIN, hass, SCAN_INTERVAL, GROUP_NAME_ALL_DISPLAYS)
+    if (MAJOR_VERSION, MINOR_VERSION) >= (0, 104):
+        component = hass.data[DOMAIN] = EntityComponent(
+            _LOGGER, DOMAIN, hass, SCAN_INTERVAL)
+    else:
+        component = hass.data[DOMAIN] = EntityComponent(
+            _LOGGER, DOMAIN, hass, SCAN_INTERVAL, GROUP_NAME_ALL_DISPLAYS)
 
     await component.async_setup(config)
 
