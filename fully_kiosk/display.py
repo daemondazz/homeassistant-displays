@@ -195,7 +195,7 @@ class FullyKioskDevice(DisplayDevice):
             'manufacturer': data['deviceManufacturer'],
             'model': data['deviceModel'],
             'device_id': data['deviceID'],
-            'mac_address': data['mac'],
+            'mac_address': data['Mac'],
             'version': data['appVersionName'],
             'page': data['currentPage'],
             'battery_charging': data['plugged'],
