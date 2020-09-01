@@ -190,7 +190,7 @@ class FullyKioskDevice(DisplayDevice):
             _LOGGER.error(data['statustext'])
             return False
 
-        self._state = (STATE_OFF, STATE_ON)[data['isScreenOn']]
+        self._state = (STATE_OFF, STATE_ON)[data['screenOn']]
         self._attributes = {
             'manufacturer': data['deviceManufacturer'],
             'model': data['deviceModel'],
