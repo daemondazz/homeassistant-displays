@@ -204,7 +204,7 @@ class FullyKioskDevice(DisplayDevice):
             'brightness': data['screenBrightness'],
             'kiosk_mode': data['kioskMode'],
             'maintenance_mode': data['maintenanceMode'],
-            'screensaver_on': (data['currentFragment'] == 'screensaver'),
+            'screensaver_on': data['isInScreensaver'],
         }
         return True
 
