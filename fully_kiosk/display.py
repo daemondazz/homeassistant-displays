@@ -217,12 +217,12 @@ class FullyKioskDevice(DisplayDevice):
             _LOGGER.error(data['statustext'])
             return False
 
-        self._state = (STATE_OFF, STATE_ON)[data['isScreenOn']]
+        self._state = (STATE_OFF, STATE_ON)[data.get('screenOn', data.get('isScreenOn'))]
         self._attributes = {
             'manufacturer': data['deviceManufacturer'],
             'model': data['deviceModel'],
             'device_id': data['deviceID'],
-            'mac_address': data['mac'],
+            'mac_address': data.get('Mac', data.get('mac', 'unknown')),
             'version': data['appVersionName'],
             'page': data['currentPage'],
             'battery_charging': data['plugged'],
@@ -231,7 +231,7 @@ class FullyKioskDevice(DisplayDevice):
             'brightness': data['screenBrightness'],
             'kiosk_mode': data['kioskMode'],
             'maintenance_mode': data['maintenanceMode'],
-            'screensaver_on': (data['currentFragment'] == 'screensaver'),
+            'screensaver_on': data.get('isInScreensaver', data.get('currentFragment', 'main') == 'screensaver')
         }
         return True
 
