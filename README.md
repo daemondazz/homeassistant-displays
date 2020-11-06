@@ -15,6 +15,7 @@ This component currently supports the following features of Fully Kiosk Browser:
    * loading a provided URL,
    * adjusting the tablet screen brightness,
    * turning the tablet screensaver on, off and adjusting the screensaver brightness.
+   * playing a mp3 file located on the tablet or on a http url
 
 ## Installation
 
@@ -67,3 +68,5 @@ The fully_kiosk platform provides the following services:
    * fully_kiosk.screensaver_start
    * fully_kiosk.screensaver_stop
    * fully_kiosk.set_screensaver_brightness
+   * fully_kiosk.sound_play
+   * fully_kiosk.sound_stop
