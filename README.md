@@ -48,7 +48,7 @@ On the tablet, you will need to enable the Remote Administration (from local net
 
 ## Usage
 
-Once installed, you should have a new **displays** card on your main HA Overview page. The state card for each tablet will show some information about the tablet, such as manufacturer, model and battery status and allow the screen to be turned on and off.
+Once installed, you should have a new **Display** card on your main HA Overview page. The state card for each tablet will show some information about the tablet, such as manufacturer, model and battery status and allow the screen to be turned on and off.
 
 ### Display Platform Services
 
