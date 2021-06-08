@@ -19,22 +19,15 @@ This component currently supports the following features of Fully Kiosk Browser:
 
 ## Installation
 
-If you have no other custom components, you can simply check out the respository directly into *$CONFIGDIR/custom_components/*.
+Clone the repository into a convenient location and then symlink the *display* and *fully_kiosk* folders into *custom_components*. Ensure the trailing slash is not included on the symlink source.
 
 ```
-$ git clone https://github.com/daemondazz/homeassistant-displays.git $CONFIGDIR/custom_components
+$ git clone https://github.com/daemondazz/homeassistant-displays.git $CONFIGDIR/third_party/displays_git
+$ ln -s $CONFIGDIR/third_party/displays_git/custom_components/display $CONFIGDIR/custom_components/display
+$ ln -s $CONFIGDIR/third_party/displays_git/custom_components/fully_kiosk $CONFIGDIR/custom_components/fully_kiosk
 ```
 
-If you are using other custom components, then check out the repository then copy the folders *display* and *fully_kiosk* into *$CONFIGDIR/custom_components/*
-
-```
-$ git clone https://github.com/daemondazz/homeassistant-displays.git /tmp/homeassistant-displays
-$ mkdir $CONFIGDIR/custom_components/{display,fully_kiosk}
-$ cp /tmp/homeassistant-displays/display/* $CONFIGDIR/custom_components/display
-$ cp /tmp/homeassistant-displays/fully_kiosk/* $CONFIGDIR/custom_components/fully_kiosk
-```
-
-And then you need to add a `display:` section to your configuration file with the IP addresses of the displays you want to control:
+Then you need to add a `display:` section to your configuration file with the IP addresses of the displays you want to control:
 
 ```
 display:
@@ -45,6 +38,16 @@ display:
 ```
 
 On the tablet, you will need to enable the Remote Administration (from local network only should be fine) and set a Remote Admin Password.
+
+## Updating
+
+If you used the above method for installation, you can update by simply performing a git pull and restarting home assistant.
+
+```
+$ cd $CONFIGDIR/third_party/displays_git
+$ git pull
+$ service homeassistant restart
+```
 
 ## Usage
 
