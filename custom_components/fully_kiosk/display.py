@@ -158,7 +158,7 @@ class FullyKioskDevice(DisplayDevice):
         self._state = STATE_UNKNOWN
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         return self._attributes
 
     @property
